@@ -23,27 +23,29 @@ export const TableItem = ({ item }: ItemProps) => {
   };
 
   return (
-    <div className='mt-4 flex justify-between'>
-      <div className='w-1/6 dark:text-white'>{formatDate(date)}</div>
+    <div className='mt-4 flex justify-between gap-4 md:gap-0'>
+      <div className='w-1/6 text-xs dark:text-white md:w-1/6  md:text-base'>
+        {formatDate(date)}
+      </div>
       <div
-        className='inline-block w-1/6 rounded-lg p-3 text-center font-medium text-white'
+        className='max-w-10 max-h-10 w-1/4 rounded-lg p-3 text-center text-xs font-medium text-white md:max-h-none md:w-1/6 md:max-w-none md:text-base'
         style={bgCategory}
       >
         {newCategory[category].title}
       </div>
-      <div className='ml-16 flex-1 text-gray-800 dark:text-gray-100'>
+      <div className='flex-1 text-center text-sm text-gray-800 dark:text-gray-100 md:ml-12 md:text-start md:text-base'>
         {title}
       </div>
       <div
-        className='w-[12%] font-medium text-gray-800 dark:text-gray-100'
+        className='w-1/6 text-sm font-medium text-gray-800 dark:text-gray-100 md:w-1/5 md:text-base'
         style={colorValue}
       >
         R$ {value}
       </div>
       <TrashIcon
-        width={22}
-        height={22}
-        className='cursor-pointer text-red-400'
+        width={21}
+        height={21}
+        className='hidden cursor-pointer text-red-400 md:block'
       />
     </div>
   );

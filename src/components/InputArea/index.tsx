@@ -108,7 +108,7 @@ export const FormArea = ({ onAdd }: Props) => {
         <label className='m-2 w-full flex-1 font-medium text-gray-900 dark:text-gray-100'>
           <div className='mb-2 font-bold'>Data</div>
           <input
-            className='h-10 w-full rounded-lg border border-gray-300 px-2 text-sm focus:border-indigo-500 focus:outline-none dark:border-gray-700 dark:bg-gray-700 dark:text-white'
+            className='h-10 w-full rounded-lg border border-gray-300 px-2 text-sm focus:border-indigo-500 focus:outline-none dark:border-gray-700 dark:bg-gray-700 dark:text-white dark:focus:border-gray-400'
             type='date'
             value={date}
             onChange={userDataHandleChange}
@@ -125,7 +125,7 @@ export const FormArea = ({ onAdd }: Props) => {
             />
           </div>
           <select
-            className='h-10 w-full rounded-lg border border-gray-300 px-2 text-sm focus:border-indigo-500 focus:outline-none dark:border-gray-700 dark:bg-gray-700 dark:text-white'
+            className='h-10 w-full rounded-lg border border-gray-300 px-2 text-sm focus:border-indigo-500 focus:outline-none dark:border-gray-700 dark:bg-gray-700 dark:text-white dark:focus:border-gray-400'
             value={category}
             onChange={userDataHandleChange}
             name='category'
@@ -141,7 +141,7 @@ export const FormArea = ({ onAdd }: Props) => {
         <label className='m-2 w-full flex-1 font-medium text-gray-900 dark:text-gray-100'>
           <div className='mb-2 font-bold'>Título</div>
           <input
-            className='h-10 w-full rounded-lg border border-gray-300 px-2 text-sm focus:border-indigo-500 focus:outline-none dark:border-gray-700 dark:bg-gray-700 dark:text-white'
+            className='h-10 w-full rounded-lg border border-gray-300 px-2 text-sm focus:border-indigo-500 focus:outline-none dark:border-gray-700 dark:bg-gray-700 dark:text-white dark:focus:border-gray-400'
             type='text'
             value={title}
             onChange={userDataHandleChange}
@@ -152,7 +152,7 @@ export const FormArea = ({ onAdd }: Props) => {
         <label className='m-2 w-full flex-1 font-medium text-gray-900 dark:text-gray-100'>
           <div className='mb-2 font-bold'>Valor</div>
           <input
-            className='h-10 w-full rounded-lg border border-gray-300 px-2 text-sm focus:border-indigo-500 focus:outline-none dark:border-gray-700 dark:bg-gray-700 dark:text-white'
+            className='h-10 w-full rounded-lg border border-gray-300 px-2 text-sm focus:border-indigo-500 focus:outline-none dark:border-gray-700 dark:bg-gray-700 dark:text-white dark:focus:border-gray-400'
             type='text'
             value={values}
             onChange={userDataHandleChange}
@@ -163,7 +163,7 @@ export const FormArea = ({ onAdd }: Props) => {
         <div className='m-2 w-full flex-1 font-medium'>
           <div className='mb-1 font-bold'>&nbsp;</div>
           <button
-            className='h-10 w-full rounded-lg bg-indigo-500 px-4 text-center text-white hover:bg-indigo-600 dark:bg-white dark:text-indigo-500 dark:hover:bg-indigo-600 dark:hover:text-white'
+            className='h-10 w-full rounded-lg bg-indigo-500 px-4 text-center text-white transition duration-300 ease-in hover:bg-indigo-800 dark:bg-white dark:text-gray-600 dark:hover:bg-gray-900 dark:hover:text-white'
             onClick={handleUserData}
           >
             Adicionar

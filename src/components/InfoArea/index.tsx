@@ -40,11 +40,10 @@ export const InfoArea = ({
         >
           <ChevronDoubleLeftIcon
             width={30}
-            color='#4F46E5'
-            className='dark:text-indigo-200'
+            className='text-indigo-500 dark:text-gray-300'
           />
         </div>
-        <div className='flex-1 rounded-xl border bg-indigo-500 p-2 text-center font-medium text-white dark:border-indigo-200 dark:bg-white dark:text-indigo-500'>
+        <div className='flex-1 rounded-xl border bg-indigo-500 p-4 text-center text-sm font-medium text-white dark:border-gray-700 dark:bg-gray-700 dark:text-white md:p-2 md:text-base'>
           {formatCurrentMonth(currentMonth)}
         </div>
         <div
@@ -53,8 +52,7 @@ export const InfoArea = ({
         >
           <ChevronDoubleRightIcon
             width={30}
-            color='#4F46E5'
-            className='dark:text-indigo-200'
+            className='text-indigo-500 dark:text-gray-300'
           />
         </div>
       </div>

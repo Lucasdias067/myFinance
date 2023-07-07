@@ -17,7 +17,7 @@ const ToggleTheme = () => {
   };
 
   return (
-    <div className='absolute right-[7%] top-[18%] w-max rounded-lg p-2 sm:block'>
+    <div className='absolute right-[7%] top-[20%] w-max rounded-lg border p-2 dark:border-gray-700 sm:block md:top-[17%]'>
       <MoonIcon
         onClick={toggle}
         className='h-8 cursor-pointer text-slate-700 dark:hidden'
