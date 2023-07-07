@@ -1,8 +1,9 @@
 'use client';
 import { FormProvider } from '@/context/FormContext';
 import './globals.css';
+import { Metadata } from 'next';
 
-export const metadata = {
+export const metadata: Metadata = {
   title: 'Finanças pessoais',
   description: 'Aplicativo de finanças pessoais'
 };
