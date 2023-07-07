@@ -1,5 +1,10 @@
 import Main from '@/components/Main';
+import { FormProvider } from '@/context/FormContext';
 
 export default function Home() {
-  return <Main />;
+  return (
+    <FormProvider>
+      <Main />
+    </FormProvider>
+  );
 }

@@ -1,4 +1,3 @@
-import { FormProvider } from '@/context/FormContext';
 import './globals.css';
 
 export const metadata = {
@@ -13,9 +12,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang='en'>
-      <FormProvider>
-        <body>{children}</body>
-      </FormProvider>
+      <body>{children}</body>
     </html>
   );
 }
