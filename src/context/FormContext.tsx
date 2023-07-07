@@ -1,3 +1,4 @@
+'use client';
 import { categories } from '@/data/categories';
 import { Category } from '@/types/Category';
 import { useContext, createContext, useState } from 'react';
