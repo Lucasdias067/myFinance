@@ -66,21 +66,24 @@ export default function Main() {
   }, [list]);
 
   useEffect(() => {
-    const listParsed = JSON.parse(localStorage.getItem('lists') || '');
+    const initialList = localStorage.getItem('lists');
+    if (initialList) {
+      const listParsed = JSON.parse(initialList);
 
-    const findDate = listParsed.map((el: Item) => {
-      const date = new Date(el.date);
-      const year = date.getFullYear();
-      const month = date.getMonth() + 1;
-      const day = date.getDate();
-      return `${year}-${month}-${day}`;
-    });
+      const findDate = listParsed.map((el: Item) => {
+        const date = new Date(el.date);
+        const year = date.getFullYear();
+        const month = date.getMonth() + 1;
+        const day = date.getDate();
+        return `${year}-${month}-${day}`;
+      });
 
-    const updatedlist: Item[] = listParsed.map((el: Item, index: number) => {
-      return { ...el, date: findDate[index].toString() };
-    });
+      const updatedlist: Item[] = listParsed.map((el: Item, index: number) => {
+        return { ...el, date: findDate[index].toString() };
+      });
 
-    setList([...updatedlist]);
+      setList([...updatedlist]);
+    }
   }, [setList, currentMonth]);
 
   const handleMonthChange = (newMonth: string) => {
