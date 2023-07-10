@@ -29,24 +29,25 @@ export const TableItem = ({ item }: ItemProps) => {
   }
 
   return (
-    <div className='mt-4 flex justify-between gap-4 md:gap-0'>
-      <div className='w-1/6 text-xs dark:text-white md:w-1/6  md:text-base'>
+    <div className='mt-4 flex w-full justify-between gap-4 md:gap-0 '>
+      <div className='w-1/6 text-[10px] dark:text-white md:w-1/6  md:text-base'>
         {formatDate(date)}
       </div>
       <div
-        className='max-w-10 max-h-10 w-1/4 rounded-lg p-3 text-center text-xs font-medium text-white md:max-h-none md:w-1/6 md:max-w-none md:text-base'
+        className=' max-h-8 w-1/3 rounded-lg p-[0.75em] text-center text-[10px] font-medium text-white md:max-h-none md:w-1/6 md:max-w-none md:text-base'
         style={bgCategory}
       >
         {newCategory[category]?.title}
       </div>
-      <div className='flex-1 text-center text-sm text-gray-800 dark:text-gray-100 md:ml-12 md:text-start md:text-base'>
+      <div className='max-w-[80px] flex-1 break-words text-center text-xs text-gray-800 dark:text-gray-100 md:ml-12 md:max-w-full md:break-normal md:text-start md:text-base'>
         {title}
       </div>
       <div
-        className='w-1/6 text-center text-sm font-medium text-gray-800 dark:text-gray-100 md:w-1/5 md:text-start md:text-base'
+        className='w-1/6 text-center text-xs font-medium text-gray-800 dark:text-gray-100 md:w-1/5 md:text-start md:text-base'
         style={colorValue}
       >
-        R$ {value}
+        R$ <br />
+        {value}
       </div>
       <TrashIcon
         width={21}

@@ -32,7 +32,7 @@ export const InfoArea = ({
   };
 
   return (
-    <div className=' mx-[5%] mt-5 flex flex-col items-center gap-10 rounded-xl border bg-white p-5 shadow-xl dark:border-gray-700 dark:bg-gray-800 dark:shadow md:flex-row md:border lg:mx-0 '>
+    <div className=' mx-[5%] mt-5 flex flex-col items-center gap-10 rounded-xl border bg-white p-5 shadow-xl dark:border-gray-700 dark:bg-gray-800 dark:shadow md:w-[90%] md:flex-row md:border md:p-5 lg:mx-0 '>
       <div className='flex flex-1 items-center md:mr-10'>
         <div
           className='flex w-10 cursor-pointer justify-start'

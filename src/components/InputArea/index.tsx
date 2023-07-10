@@ -93,8 +93,6 @@ export const FormArea = ({ onAdd }: Props) => {
       expense: category.categoryExpense === 'Despesa'
     };
 
-    console.log(pushingCategory);
-
     setNewCategory({
       ...newCategory,
       [pushingCategory.title]: pushingCategory
@@ -111,10 +109,12 @@ export const FormArea = ({ onAdd }: Props) => {
     const theNewCategory = Object.keys(removingCategory).filter(
       (el: string) => el === categoryKey
     );
+
     const isCategoryActive = list.some(
-      (el) => el.category === theNewCategory[0]
+      ({ category }) => category === theNewCategory[0]
     );
     if (isCategoryActive) return alert('Remova os itens da categoria primeiro');
+
     const key = removingCategory[theNewCategory[0]];
     delete removingCategory[key.title];
     setNewCategory({ ...removingCategory });
@@ -136,8 +136,8 @@ export const FormArea = ({ onAdd }: Props) => {
   }, [setNewCategory]);
 
   return (
-    <div>
-      <div className='mx-[5%] mt-5 flex flex-col items-center rounded-lg border bg-white p-5 shadow-xl dark:border-gray-700 dark:bg-gray-800 md:flex-row lg:mx-0'>
+    <div className='flex w-full justify-center'>
+      <div className='mt-5 flex w-[90%] flex-col items-center rounded-lg border bg-white p-5 shadow-xl dark:border-gray-700 dark:bg-gray-800 md:w-[90%] md:flex-row lg:mx-0'>
         <label className='m-2 w-full flex-1 font-medium text-gray-900 dark:text-gray-100'>
           <div className='mb-2 font-bold'>Data</div>
           <input
@@ -148,7 +148,7 @@ export const FormArea = ({ onAdd }: Props) => {
             name='date'
           />
         </label>
-        <label className='m-2 w-full flex-1 font-medium text-gray-900 dark:text-gray-100'>
+        <div className='m-2 w-full flex-1 font-medium text-gray-900 dark:text-gray-100'>
           <div className='mb-2 flex justify-between font-bold'>
             Categoria
             <div className='flex items-center'>
@@ -177,7 +177,7 @@ export const FormArea = ({ onAdd }: Props) => {
               </option>
             ))}
           </select>
-        </label>
+        </div>
         <label className='m-2 w-full flex-1 font-medium text-gray-900 dark:text-gray-100'>
           <div className='mb-2 font-bold'>Título</div>
           <input
@@ -293,6 +293,7 @@ export const FormArea = ({ onAdd }: Props) => {
             <div className='flex items-center gap-4'>
               <button
                 onClick={() => removeCategory(newCategory)}
+                disabled={!categoryKey}
                 className='flex-1 rounded-lg  bg-indigo-500 px-4 py-2 font-medium text-white hover:bg-indigo-600 dark:bg-indigo-700 dark:text-white dark:hover:bg-indigo-600'
               >
                 Remover

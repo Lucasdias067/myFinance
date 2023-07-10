@@ -102,7 +102,7 @@ export default function Main() {
         </h1>
         <ToggleTheme />
       </section>
-      <section className='mt-7 max-w-4xl lg:min-w-[1024px]'>
+      <section className='mt-7 flex max-w-4xl flex-col items-center lg:min-w-[1024px]'>
         <InfoArea
           currentMonth={currentMonth}
           onMonthChange={handleMonthChange}
