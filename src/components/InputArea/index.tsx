@@ -128,9 +128,9 @@ export const FormArea = ({ onAdd }: Props) => {
   }, [newCategory]);
 
   useEffect(() => {
-    const category = localStorage.getItem('category') || '{}';
-    const categoryParsed = JSON.parse(category);
-    setNewCategory(categoryParsed);
+    const category = localStorage.getItem('category') || '';
+    const categoryParsed = !!category && JSON.parse(category);
+    if (categoryParsed) setNewCategory(categoryParsed);
   }, [setNewCategory]);
 
   return (
