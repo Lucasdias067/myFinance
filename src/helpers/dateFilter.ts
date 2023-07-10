@@ -11,8 +11,11 @@ export const getCurrentMonth = () => {
 
 export const filterListByMonth = (list: Item[], date: string) => {
   const [year, month] = splitDate(date);
+
   const filteredList = list.filter(
-    ({ date }) => date.getFullYear() === year && date.getMonth() + 1 === month
+    ({ date }) =>
+      new Date(date).getFullYear() === year &&
+      new Date(date).getMonth() + 1 === month
   );
 
   return filteredList;
@@ -20,9 +23,9 @@ export const filterListByMonth = (list: Item[], date: string) => {
 
 export const formatDate = (date: Date) => {
   const { year, month, day } = {
-    year: date.getFullYear(),
-    month: (date.getMonth() + 1).toString().padStart(2, '0'),
-    day: date.getDate().toString().padStart(2, '0')
+    year: new Date(date).getFullYear(),
+    month: (new Date(date).getMonth() + 1).toString().padStart(2, '0'),
+    day: new Date(date).getDate().toString().padStart(2, '0')
   };
 
   const formattedDate = `${day}/${month}/${year}`;

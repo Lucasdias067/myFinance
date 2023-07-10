@@ -9,14 +9,17 @@ import ToggleTheme from '../app/Toggletheme';
 import { useFormContext } from '@/context/FormContext';
 
 export default function Main() {
-  const [list, setList] = useState<Item[]>([]);
   const [filteredList, setFilteredList] = useState<Item[]>([]);
   const [currentMonth, setCurrentMonth] = useState(getCurrentMonth());
-  const [income, setIncome] = useState(0);
-  const [expense, setExpense] = useState(0);
-  const [incomeTotal, setIncomeTotal] = useState(0);
-  const [expenseTotal, setExpenseTotal] = useState(0);
-  const { newCategory } = useFormContext();
+  const [balance, setBalance] = useState({
+    income: 0,
+    expense: 0,
+    incomeTotal: 0,
+    expenseTotal: 0
+  });
+
+  const { newCategory, list, setList } = useFormContext();
+  const { income, expense, incomeTotal, expenseTotal } = balance;
 
   useEffect(() => {
     setFilteredList(filterListByMonth(list, currentMonth));
@@ -25,34 +28,60 @@ export default function Main() {
   useEffect(() => {
     let incomeCount = 0;
     let expenseCount = 0;
+    let incomeCountTotal = 0;
+    let expenseCountTotal = 0;
 
-    filteredList.forEach(({ category, value }) => {
-      if (newCategory[category].expense) {
-        expenseCount += Number(value);
-      } else {
-        incomeCount += Number(value);
-      }
+    if (filteredList.length) {
+      filteredList.forEach(({ category, value }) => {
+        if (newCategory[category]?.expense) {
+          expenseCount += Number(value);
+        } else {
+          incomeCount += Number(value);
+        }
+      });
+    }
+
+    if (list.length) {
+      list.forEach(({ category, value }) => {
+        if (newCategory[category]?.expense) {
+          expenseCountTotal += Number(value);
+        } else {
+          incomeCountTotal += Number(value);
+        }
+      });
+    }
+
+    setBalance({
+      income: incomeCount,
+      expense: expenseCount,
+      incomeTotal: incomeCountTotal,
+      expenseTotal: expenseCountTotal
     });
-
-    setIncome(incomeCount);
-    setExpense(expenseCount);
-  }, [filteredList, newCategory]);
+  }, [list, filteredList, newCategory]);
 
   useEffect(() => {
-    let incomeCount = 0;
-    let expenseCount = 0;
+    if (list && list.length) {
+      localStorage.setItem('lists', JSON.stringify(list));
+    }
+  }, [list]);
 
-    list.forEach(({ category, value }) => {
-      if (newCategory[category].expense) {
-        expenseCount += Number(value);
-      } else {
-        incomeCount += Number(value);
-      }
+  useEffect(() => {
+    const listParsed = JSON.parse(localStorage.getItem('lists') || '');
+
+    const findDate = listParsed.map((el: Item) => {
+      const date = new Date(el.date);
+      const year = date.getFullYear();
+      const month = date.getMonth() + 1;
+      const day = date.getDate();
+      return `${year}-${month}-${day}`;
     });
 
-    setIncomeTotal(incomeCount);
-    setExpenseTotal(expenseCount);
-  }, [list, newCategory]);
+    const updatedlist: Item[] = listParsed.map((el: Item, index: number) => {
+      return { ...el, date: findDate[index].toString() };
+    });
+
+    setList([...updatedlist]);
+  }, [setList, currentMonth]);
 
   const handleMonthChange = (newMonth: string) => {
     setCurrentMonth(newMonth);
@@ -61,9 +90,10 @@ export default function Main() {
   const handleAddItem = (item: Item) => {
     setList((prevState) => [...prevState, item]);
   };
+
   return (
-    <main className='flex h-max flex-col items-center dark:bg-slate-900 dark:bg-gradient-to-b dark:from-slate-900 md:h-full md:min-h-screen'>
-      <section className='flex h-48 w-full items-center justify-center bg-slate-800 bg-gradient-to-t from-white text-center dark:bg-slate-900 dark:bg-gradient-to-b dark:from-slate-700'>
+    <main className='flex h-max flex-col items-center bg-slate-200 bg-gradient-to-t from-white dark:bg-slate-900 dark:bg-gradient-to-b dark:from-slate-900 md:h-full md:min-h-screen'>
+      <section className='flex h-48 w-full items-center justify-center bg-slate-900 bg-gradient-to-t from-slate-200 text-center dark:bg-slate-900 dark:bg-gradient-to-b dark:from-slate-700'>
         <h1 className='text-4xl font-bold text-slate-800 dark:text-zinc-100 md:text-5xl'>
           Sistema de Finanças Pessoais
         </h1>

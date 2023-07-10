@@ -1,15 +1,18 @@
-import { useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { Item } from '../../types/Item';
 import { newDateAdjusted } from '../../helpers/dateFilter';
-import { PlusCircleIcon } from '@heroicons/react/24/solid';
+import { MinusCircleIcon, PlusCircleIcon } from '@heroicons/react/24/solid';
 import { useFormContext } from '@/context/FormContext';
+import { Category } from '@/types/Category';
 
 type Props = {
   onAdd: (item: Item) => void;
 };
 
 export const FormArea = ({ onAdd }: Props) => {
-  const [categoryModal, setCategoryModal] = useState(false);
+  const [addCategoryModal, setAddCategoryModal] = useState(false);
+  const [removeCategoryModal, setRemoveCategoryModal] = useState(false);
+  const [categoryKey, setCategoryKey] = useState('');
   const [userData, setUserData] = useState({
     date: '',
     category: '',
@@ -23,7 +26,7 @@ export const FormArea = ({ onAdd }: Props) => {
     categoryExpense: ''
   });
 
-  const { newCategory, setNewCategory } = useFormContext();
+  const { newCategory, setNewCategory, list } = useFormContext();
 
   const categoryKeys = Object.keys(newCategory);
   const { date, category, title, values } = userData;
@@ -90,17 +93,45 @@ export const FormArea = ({ onAdd }: Props) => {
       expense: category.categoryExpense === 'Despesa'
     };
 
+    console.log(pushingCategory);
+
     setNewCategory({
       ...newCategory,
       [pushingCategory.title]: pushingCategory
     });
-    setCategoryModal(!categoryModal);
+    setAddCategoryModal(!addCategoryModal);
     setUserNewCategory({
       categoryTitle: '',
       categoryColor: '',
       categoryExpense: ''
     });
   }
+
+  function removeCategory(removingCategory: Category) {
+    const theNewCategory = Object.keys(removingCategory).filter(
+      (el: string) => el === categoryKey
+    );
+    const isCategoryActive = list.some(
+      (el) => el.category === theNewCategory[0]
+    );
+    if (isCategoryActive) return alert('Remova os itens da categoria primeiro');
+    const key = removingCategory[theNewCategory[0]];
+    delete removingCategory[key.title];
+    setNewCategory({ ...removingCategory });
+    localStorage.setItem('category', JSON.stringify(newCategory));
+    setRemoveCategoryModal(!removeCategoryModal);
+  }
+
+  useEffect(() => {
+    if (Object.keys(newCategory).length === 3) return;
+    localStorage.setItem('category', JSON.stringify(newCategory));
+  }, [newCategory]);
+
+  useEffect(() => {
+    const category = localStorage.getItem('category') || '{}';
+    const categoryParsed = JSON.parse(category);
+    setNewCategory(categoryParsed);
+  }, [setNewCategory]);
 
   return (
     <div>
@@ -118,11 +149,18 @@ export const FormArea = ({ onAdd }: Props) => {
         <label className='m-2 w-full flex-1 font-medium text-gray-900 dark:text-gray-100'>
           <div className='mb-2 flex justify-between font-bold'>
             Categoria
-            <PlusCircleIcon
-              width={25}
-              className='ml-1 text-green-500 dark:text-green-400'
-              onClick={() => setCategoryModal(!categoryModal)}
-            />
+            <div className='flex items-center'>
+              <MinusCircleIcon
+                width={25}
+                className='ml-1 text-red-500 dark:text-red-500'
+                onClick={() => setRemoveCategoryModal(!removeCategoryModal)}
+              />
+              <PlusCircleIcon
+                width={25}
+                className='ml-1 text-green-500 dark:text-green-400'
+                onClick={() => setAddCategoryModal(!addCategoryModal)}
+              />
+            </div>
           </div>
           <select
             className='h-10 w-full rounded-lg border border-gray-300 px-2 text-sm focus:border-indigo-500 focus:outline-none dark:border-gray-700 dark:bg-gray-700 dark:text-white dark:focus:border-gray-400'
@@ -147,6 +185,7 @@ export const FormArea = ({ onAdd }: Props) => {
             onChange={userDataHandleChange}
             name='title'
             placeholder='Digite o título'
+            maxLength={25}
           />
         </label>
         <label className='m-2 w-full flex-1 font-medium text-gray-900 dark:text-gray-100'>
@@ -158,6 +197,7 @@ export const FormArea = ({ onAdd }: Props) => {
             onChange={userDataHandleChange}
             name='values'
             placeholder='Digite o valor'
+            maxLength={5}
           />
         </label>
         <div className='m-2 w-full flex-1 font-medium'>
@@ -170,7 +210,7 @@ export const FormArea = ({ onAdd }: Props) => {
           </button>
         </div>
       </div>
-      {categoryModal && (
+      {addCategoryModal && (
         <div className='fixed inset-0 z-50 flex items-center justify-center '>
           <div className='absolute inset-0 bg-gray-900 opacity-75 dark:bg-gray-900'></div>
           <div className='relative rounded-lg bg-white p-5 shadow-xl dark:bg-gray-800 '>
@@ -214,7 +254,49 @@ export const FormArea = ({ onAdd }: Props) => {
                 Salvar
               </button>
               <button
-                onClick={() => setCategoryModal(!categoryModal)}
+                onClick={() => setAddCategoryModal(!addCategoryModal)}
+                className='flex-1 rounded-lg bg-gray-300 px-4 py-2 font-medium text-gray-700 hover:bg-gray-400 dark:bg-gray-600 dark:text-gray-200 dark:hover:bg-gray-500'
+              >
+                Cancelar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      {removeCategoryModal && (
+        <div className='fixed inset-0 z-50 flex items-center justify-center '>
+          <div className='absolute inset-0 bg-gray-900 opacity-75 dark:bg-gray-900'></div>
+          <div className='relative rounded-lg bg-white p-5 shadow-xl dark:bg-gray-800 '>
+            <div className='mb-7'>
+              <select
+                value={categoryKey}
+                onChange={(e: ChangeEvent<HTMLSelectElement>) =>
+                  setCategoryKey(e.target.value)
+                }
+                className='block h-10 w-full rounded-lg border border-gray-300 px-3 text-sm focus:border-indigo-500 focus:outline-none dark:border-gray-700 dark:bg-gray-700 dark:text-white'
+              >
+                <option disabled></option>
+                {categoryKeys.map((key, index) => {
+                  if (key !== 'food' && key !== 'rent' && key !== 'salary') {
+                    return (
+                      <option key={index} value={key}>
+                        {newCategory[key].title}
+                      </option>
+                    );
+                  }
+                  return null;
+                })}
+              </select>
+            </div>
+            <div className='flex items-center gap-4'>
+              <button
+                onClick={() => removeCategory(newCategory)}
+                className='flex-1 rounded-lg  bg-indigo-500 px-4 py-2 font-medium text-white hover:bg-indigo-600 dark:bg-indigo-700 dark:text-white dark:hover:bg-indigo-600'
+              >
+                Remover
+              </button>
+              <button
+                onClick={() => setRemoveCategoryModal(!removeCategoryModal)}
                 className='flex-1 rounded-lg bg-gray-300 px-4 py-2 font-medium text-gray-700 hover:bg-gray-400 dark:bg-gray-600 dark:text-gray-200 dark:hover:bg-gray-500'
               >
                 Cancelar
