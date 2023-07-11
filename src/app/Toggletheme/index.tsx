@@ -3,17 +3,18 @@ import { MoonIcon, SunIcon } from '@heroicons/react/24/solid';
 import { useEffect } from 'react';
 
 const ToggleTheme = () => {
+  const documentClasses = document.documentElement.classList;
+
   useEffect(() => {
     const systemPreference = window.matchMedia(
       '(prefers-color-scheme: light)'
     ).matches;
-    const pageClasses = document.documentElement.classList;
 
-    systemPreference && pageClasses.add('dark');
-  }, []);
+    systemPreference && documentClasses.add('dark');
+  }, [documentClasses]);
 
   const toggle = () => {
-    document.documentElement.classList.toggle('dark');
+    documentClasses.toggle('dark');
   };
 
   return (

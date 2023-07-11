@@ -12,7 +12,7 @@ export const TableArea = ({ list }: ItemProps) => {
         <div className='w-1/6 text-gray-600 dark:text-gray-100 md:w-1/6'>
           Data
         </div>
-        <div className='w-1/3 text-end text-gray-600 dark:text-gray-100 md:w-1/6 md:text-start'>
+        <div className='w-1/3 text-start text-gray-600 dark:text-gray-100 md:w-1/6 md:text-start'>
           Categoria
         </div>
         <div className=' flex-1 text-center text-gray-600 dark:text-gray-100 md:ml-12 md:text-start'>
