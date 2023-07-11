@@ -1,17 +1,16 @@
 'use client';
+import { documentClasses } from '@/helpers/dateFilter';
 import { MoonIcon, SunIcon } from '@heroicons/react/24/solid';
 import { useEffect } from 'react';
 
-const ToggleTheme = () => {
-  const documentClasses = document.documentElement.classList;
-
+export default function ToggleTheme() {
   useEffect(() => {
     const systemPreference = window.matchMedia(
       '(prefers-color-scheme: light)'
     ).matches;
 
     systemPreference && documentClasses.add('dark');
-  }, [documentClasses]);
+  }, []);
 
   const toggle = () => {
     documentClasses.toggle('dark');
@@ -29,6 +28,4 @@ const ToggleTheme = () => {
       />
     </div>
   );
-};
-
-export default ToggleTheme;
+}
