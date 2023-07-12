@@ -1,38 +1,39 @@
 import { ChangeEvent, useEffect, useState } from 'react';
-import { Item } from '../../types/Item';
 import { newDateAdjusted } from '../../helpers/dateFilter';
 import { MinusCircleIcon, PlusCircleIcon } from '@heroicons/react/24/solid';
 import { useFormContext } from '@/context/FormContext';
-import { Category } from '@/types/Category';
+import { Category, Item } from '@/types/Types';
 
 type Props = {
   onAdd: (item: Item) => void;
 };
 
-export const FormArea = ({ onAdd }: Props) => {
-  const [addCategoryModal, setAddCategoryModal] = useState(false);
-  const [removeCategoryModal, setRemoveCategoryModal] = useState(false);
+export default function FormArea({ onAdd }: Props) {
   const [categoryKey, setCategoryKey] = useState('');
+  const [modal, setModal] = useState({
+    addCategoryModal: false,
+    removeCategoryModal: false
+  });
   const [userData, setUserData] = useState({
     date: '',
     category: '',
     title: '',
     values: ''
   });
-
   const [userNewCategory, setUserNewCategory] = useState({
     categoryTitle: '',
     categoryColor: '',
     categoryExpense: ''
   });
 
-  const { newCategory, setNewCategory, list } = useFormContext();
-
-  const categoryKeys = Object.keys(newCategory);
+  const { addCategoryModal, removeCategoryModal } = modal;
   const { date, category, title, values } = userData;
   const { categoryTitle, categoryColor, categoryExpense } = userNewCategory;
 
-  const handleUserData = () => {
+  const { newCategory, setNewCategory, list } = useFormContext();
+  const categoryKeys = Object.keys(newCategory);
+
+  function handleUserData() {
     const errors: string[] = [];
 
     if (isValidDate(date)) errors.push('Data inválida!');
@@ -43,7 +44,7 @@ export const FormArea = ({ onAdd }: Props) => {
 
     if (errors.length > 0) return alert(errors.join('\n'));
     resetUserData();
-  };
+  }
 
   function resetUserData() {
     onAdd({
@@ -97,7 +98,7 @@ export const FormArea = ({ onAdd }: Props) => {
       ...newCategory,
       [pushingCategory.title]: pushingCategory
     });
-    setAddCategoryModal(!addCategoryModal);
+    setModal({ ...modal, addCategoryModal: !addCategoryModal });
     setUserNewCategory({
       categoryTitle: '',
       categoryColor: '',
@@ -119,7 +120,7 @@ export const FormArea = ({ onAdd }: Props) => {
     delete removingCategory[key.title];
     setNewCategory({ ...removingCategory });
     localStorage.setItem('category', JSON.stringify(newCategory));
-    setRemoveCategoryModal(!removeCategoryModal);
+    setModal({ ...modal, removeCategoryModal: !removeCategoryModal });
   }
 
   useEffect(() => {
@@ -138,7 +139,7 @@ export const FormArea = ({ onAdd }: Props) => {
   return (
     <div className='flex w-full justify-center'>
       <div className='mt-5 flex w-[90%] flex-col items-center rounded-lg border bg-white p-5 shadow-xl dark:border-gray-700 dark:bg-gray-800 md:w-[90%] md:flex-row lg:mx-0'>
-        <label className='m-2 w-full flex-1 font-medium text-gray-900 dark:text-gray-100'>
+        <label className='m-2 w-full flex-1 font-medium text-gray-600 dark:text-gray-100'>
           <div className='mb-2 font-bold'>Data</div>
           <input
             className='h-10 w-full rounded-lg border border-gray-300 px-2 text-sm focus:border-indigo-500 focus:outline-none dark:border-gray-700 dark:bg-gray-700 dark:text-white dark:focus:border-gray-400'
@@ -148,19 +149,26 @@ export const FormArea = ({ onAdd }: Props) => {
             name='date'
           />
         </label>
-        <div className='m-2 w-full flex-1 font-medium text-gray-900 dark:text-gray-100'>
+        <div className='m-2 w-full flex-1 font-medium text-gray-600 dark:text-gray-100'>
           <div className='mb-2 flex justify-between font-bold'>
             Categoria
             <div className='flex items-center'>
               <MinusCircleIcon
                 width={25}
                 className='ml-1 text-red-500 dark:text-red-500'
-                onClick={() => setRemoveCategoryModal(!removeCategoryModal)}
+                onClick={() =>
+                  setModal({
+                    ...modal,
+                    removeCategoryModal: !removeCategoryModal
+                  })
+                }
               />
               <PlusCircleIcon
                 width={25}
                 className='ml-1 text-green-500 dark:text-green-400'
-                onClick={() => setAddCategoryModal(!addCategoryModal)}
+                onClick={() =>
+                  setModal({ ...modal, addCategoryModal: !addCategoryModal })
+                }
               />
             </div>
           </div>
@@ -178,7 +186,7 @@ export const FormArea = ({ onAdd }: Props) => {
             ))}
           </select>
         </div>
-        <label className='m-2 w-full flex-1 font-medium text-gray-900 dark:text-gray-100'>
+        <label className='m-2 w-full flex-1 font-medium text-gray-600 dark:text-gray-100'>
           <div className='mb-2 font-bold'>Título</div>
           <input
             className='h-10 w-full rounded-lg border border-gray-300 px-2 text-sm focus:border-indigo-500 focus:outline-none dark:border-gray-700 dark:bg-gray-700 dark:text-white dark:focus:border-gray-400'
@@ -190,7 +198,7 @@ export const FormArea = ({ onAdd }: Props) => {
             maxLength={25}
           />
         </label>
-        <label className='m-2 w-full flex-1 font-medium text-gray-900 dark:text-gray-100'>
+        <label className='m-2 w-full flex-1 font-medium text-gray-600 dark:text-gray-100'>
           <div className='mb-2 font-bold'>Valor</div>
           <input
             className='h-10 w-full rounded-lg border border-gray-300 px-2 text-sm focus:border-indigo-500 focus:outline-none dark:border-gray-700 dark:bg-gray-700 dark:text-white dark:focus:border-gray-400'
@@ -217,7 +225,7 @@ export const FormArea = ({ onAdd }: Props) => {
           <div className='absolute inset-0 bg-gray-900 opacity-75 dark:bg-gray-900'></div>
           <div className='relative rounded-lg bg-white p-5 shadow-xl dark:bg-gray-800 '>
             <div className='mb-7'>
-              <label className='mb-2 block font-medium text-gray-900 dark:text-gray-100'>
+              <label className='mb-2 block font-medium text-gray-600 dark:text-gray-100'>
                 Categoria:
                 <input
                   value={categoryTitle}
@@ -227,7 +235,7 @@ export const FormArea = ({ onAdd }: Props) => {
                   className='block h-10 w-full rounded-lg border border-gray-300 px-3 text-sm focus:border-indigo-500 focus:outline-none dark:border-gray-700 dark:bg-gray-700 dark:text-white'
                 />
               </label>
-              <label className='mb-4 block  font-medium text-gray-900 dark:text-gray-100'>
+              <label className='mb-4 block  font-medium text-gray-600 dark:text-gray-100'>
                 Escolha a cor:
                 <input
                   value={categoryColor}
@@ -256,7 +264,9 @@ export const FormArea = ({ onAdd }: Props) => {
                 Salvar
               </button>
               <button
-                onClick={() => setAddCategoryModal(!addCategoryModal)}
+                onClick={() =>
+                  setModal({ ...modal, addCategoryModal: !addCategoryModal })
+                }
                 className='flex-1 rounded-lg bg-gray-300 px-4 py-2 font-medium text-gray-700 hover:bg-gray-400 dark:bg-gray-600 dark:text-gray-200 dark:hover:bg-gray-500'
               >
                 Cancelar
@@ -299,7 +309,12 @@ export const FormArea = ({ onAdd }: Props) => {
                 Remover
               </button>
               <button
-                onClick={() => setRemoveCategoryModal(!removeCategoryModal)}
+                onClick={() =>
+                  setModal({
+                    ...modal,
+                    removeCategoryModal: !removeCategoryModal
+                  })
+                }
                 className='flex-1 rounded-lg bg-gray-300 px-4 py-2 font-medium text-gray-700 hover:bg-gray-400 dark:bg-gray-600 dark:text-gray-200 dark:hover:bg-gray-500'
               >
                 Cancelar
@@ -310,4 +325,4 @@ export const FormArea = ({ onAdd }: Props) => {
       )}
     </div>
   );
-};
+}

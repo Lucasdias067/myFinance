@@ -1,12 +1,12 @@
 'use client';
-import { InfoArea } from '@/components/InfoArea';
-import { FormArea } from '@/components/InputArea';
-import { TableArea } from '@/components/TableArea';
-import { filterListByMonth, getCurrentMonth } from '@/helpers/dateFilter';
-import { Item } from '@/types/Item';
 import { useEffect, useState } from 'react';
-import ToggleTheme from '../app/Toggletheme';
+import InfoArea from '@/components/InfoArea';
+import FormArea from '@/components/InputArea';
+import ListArea from '@/components/ListArea';
+import { filterListByMonth, getCurrentMonth } from '@/helpers/dateFilter';
+import { Item } from '@/types/Types';
 import { useFormContext } from '@/context/FormContext';
+import MainHeader from './MainHeader';
 
 export default function Main() {
   const [filteredList, setFilteredList] = useState<Item[]>([]);
@@ -26,36 +26,39 @@ export default function Main() {
   }, [list, currentMonth]);
 
   useEffect(() => {
-    let incomeCount = 0;
-    let expenseCount = 0;
-    let incomeCountTotal = 0;
-    let expenseCountTotal = 0;
-
-    if (filteredList.length) {
-      filteredList.forEach(({ category, value }) => {
-        if (newCategory[category]?.expense) {
-          expenseCount += Number(value);
-        } else {
-          incomeCount += Number(value);
-        }
-      });
+    function filterBalance(lists: Item[], expenses: number, incomes: number) {
+      if (lists.length) {
+        lists.forEach(({ category, value }) => {
+          newCategory[category]?.expense
+            ? (expenses += Number(value))
+            : (incomes += Number(value));
+        });
+      }
+      return { expenses, incomes };
     }
 
-    if (list.length) {
-      list.forEach(({ category, value }) => {
-        if (newCategory[category]?.expense) {
-          expenseCountTotal += Number(value);
-        } else {
-          incomeCountTotal += Number(value);
-        }
-      });
-    }
+    const expenseCount = 0;
+    const incomeCount = 0;
+    const expenseCountTotal = 0;
+    const incomeCountTotal = 0;
+
+    const filteredBalance = filterBalance(
+      filteredList,
+      expenseCount,
+      incomeCount
+    );
+
+    const totalBalance = filterBalance(
+      list,
+      expenseCountTotal,
+      incomeCountTotal
+    );
 
     setBalance({
-      income: incomeCount,
-      expense: expenseCount,
-      incomeTotal: incomeCountTotal,
-      expenseTotal: expenseCountTotal
+      income: filteredBalance.incomes,
+      expense: filteredBalance.expenses,
+      incomeTotal: totalBalance.incomes,
+      expenseTotal: totalBalance.expenses
     });
   }, [list, filteredList, newCategory]);
 
@@ -95,13 +98,12 @@ export default function Main() {
   };
 
   return (
-    <main className='flex h-max flex-col items-center bg-slate-200 bg-gradient-to-t from-white dark:bg-slate-900 dark:bg-gradient-to-b dark:from-slate-900 md:h-full md:min-h-screen'>
-      <section className='flex h-48 w-full items-center justify-center bg-slate-900 bg-gradient-to-t from-slate-200 text-center dark:bg-slate-900 dark:bg-gradient-to-b dark:from-slate-700'>
-        <h1 className='text-4xl font-bold text-slate-800 dark:text-zinc-100 md:text-5xl'>
-          Sistema de Finanças Pessoais
-        </h1>
-        <ToggleTheme />
-      </section>
+    <main
+      className='flex h-max flex-col items-center bg-slate-200 bg-gradient-to-t from-white 
+              dark:bg-slate-900 dark:bg-gradient-to-b dark:from-slate-900 
+                md:h-full md:min-h-screen'
+    >
+      <MainHeader />
       <section className='mt-7 flex max-w-4xl flex-col items-center lg:min-w-[1024px]'>
         <InfoArea
           currentMonth={currentMonth}
@@ -112,7 +114,7 @@ export default function Main() {
           expenseTotal={expenseTotal}
         />
         <FormArea onAdd={handleAddItem} />
-        <TableArea list={filteredList} />
+        <ListArea filteredList={filteredList} />
       </section>
     </main>
   );

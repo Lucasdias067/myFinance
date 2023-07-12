@@ -1,5 +1,5 @@
-import { Item } from '../../types/Item';
-import { formatDate } from '../../helpers/dateFilter';
+import { Item } from '../../../types/Types';
+import { formatDate } from '../../../helpers/dateFilter';
 import { CSSProperties } from 'react';
 import { useFormContext } from '@/context/FormContext';
 import { TrashIcon } from '@heroicons/react/24/solid';
@@ -8,9 +8,8 @@ type ItemProps = {
   item: Item;
 };
 
-export const TableItem = ({ item }: ItemProps) => {
+export const ListItem = ({ item }: ItemProps) => {
   const { newCategory, list, setList } = useFormContext();
-
   const { category, date, title, value } = item;
 
   const bgCategory: CSSProperties = {
@@ -39,20 +38,19 @@ export const TableItem = ({ item }: ItemProps) => {
       >
         {newCategory[category]?.title}
       </div>
-      <div className='max-w-[80px] flex-1 break-words text-center text-xs text-gray-800 dark:text-gray-100 md:ml-12 md:max-w-full md:break-normal md:text-start md:text-base'>
+      <div className='max-w-[80px] flex-1 break-words text-center text-xs text-gray-900 dark:text-gray-100 md:ml-12 md:max-w-full md:break-normal md:text-start md:text-base'>
         {title}
       </div>
       <div
-        className='w-1/6 text-center text-xs font-medium text-gray-800 dark:text-gray-100 md:w-1/5 md:text-start md:text-base'
+        className='w-1/6 text-center text-xs font-medium md:w-1/5 md:text-start md:text-base'
         style={colorValue}
       >
-        R$ <br />
-        {value}
+        R$ {value}
       </div>
       <TrashIcon
         width={21}
         height={21}
-        className='hidden cursor-pointer text-red-400 md:block'
+        className='hidden cursor-pointer text-red-500 md:block'
         onClick={() => removeItem(date)}
       />
     </div>

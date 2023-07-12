@@ -1,10 +1,8 @@
 'use client';
 import { categories } from '@/data/categories';
-import { Category } from '@/types/Category';
-import { Item } from '@/types/Item';
+import { Category, Item, childrenProps } from '@/types/Types';
 import { useContext, createContext, useState } from 'react';
 
-type childrenProps = { children: React.ReactNode };
 interface categoryContextProps {
   newCategory: Category;
   setNewCategory: React.Dispatch<React.SetStateAction<Category>>;
@@ -13,7 +11,8 @@ interface categoryContextProps {
 }
 
 const FormContext = createContext({} as categoryContextProps);
-export const FormProvider = ({ children }: childrenProps) => {
+
+export default function FormProvider({ children }: childrenProps) {
   const [newCategory, setNewCategory] = useState<Category>(categories);
   const [list, setList] = useState<Item[]>([]);
 
@@ -29,11 +28,11 @@ export const FormProvider = ({ children }: childrenProps) => {
       {children}
     </FormContext.Provider>
   );
-};
+}
 
-export const useFormContext = () => {
+export function useFormContext() {
   const { newCategory, setNewCategory, list, setList } =
     useContext(FormContext);
 
   return { newCategory, setNewCategory, list, setList };
-};
+}

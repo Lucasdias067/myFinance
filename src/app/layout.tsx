@@ -1,3 +1,4 @@
+import { childrenProps } from '@/types/Types';
 import './globals.css';
 
 export const metadata = {
@@ -5,13 +6,9 @@ export const metadata = {
   description: 'Aplicativo de finanças pessoais'
 };
 
-export default function RootLayout({
-  children
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: childrenProps) {
   return (
-    <html lang='en'>
+    <html lang='pt-BR'>
       <body>{children}</body>
     </html>
   );

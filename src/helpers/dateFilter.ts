@@ -1,6 +1,4 @@
-import { Item } from '../types/Item';
-
-export const documentClasses = document.documentElement.classList;
+import { Item } from '../types/Types';
 
 export function splitDate(date: string) {
   return date.split('-').map(Number);
