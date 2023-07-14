@@ -11,7 +11,7 @@ type InfoAreaProps = {
   expenseTotal: number;
 };
 
-export default function InfoArea({
+export default function Info({
   currentMonth,
   onMonthChange,
   income,

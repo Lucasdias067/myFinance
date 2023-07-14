@@ -5,25 +5,31 @@ import { useEffect } from 'react';
 export default function ToggleTheme() {
   useEffect(() => {
     const systemPreference = window.matchMedia(
-      '(prefers-color-scheme: light)'
+      '(prefers-color-scheme: dark)'
     ).matches;
     const pageClasses = document.documentElement.classList;
+    const darkClass = localStorage.getItem('theme') === 'dark';
 
-    systemPreference && pageClasses.add('dark');
+    systemPreference && darkClass && pageClasses.add('dark');
   }, []);
 
-  const toggle = () => {
-    document.documentElement.classList.toggle('dark');
-  };
+  function handleToggle() {
+    const myClasses = document.documentElement.classList;
+    myClasses.toggle('dark');
+    localStorage.setItem(
+      'theme',
+      myClasses.contains('dark') ? 'dark' : 'light'
+    );
+  }
 
   return (
     <div className='absolute right-[7%] top-[20%] w-max rounded-lg border p-2 dark:border-gray-700 sm:block md:top-[17%]'>
       <MoonIcon
-        onClick={toggle}
+        onClick={handleToggle}
         className='h-8 cursor-pointer text-slate-700 dark:hidden'
       />
       <SunIcon
-        onClick={toggle}
+        onClick={handleToggle}
         className='hidden h-8 cursor-pointer text-white dark:block dark:text-orange-500'
       />
     </div>

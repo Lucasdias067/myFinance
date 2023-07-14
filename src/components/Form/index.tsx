@@ -8,7 +8,7 @@ type Props = {
   onAdd: (item: Item) => void;
 };
 
-export default function FormArea({ onAdd }: Props) {
+export default function Form({ onAdd }: Props) {
   const [categoryKey, setCategoryKey] = useState('');
   const [modal, setModal] = useState({
     addCategoryModal: false,
@@ -116,8 +116,8 @@ export default function FormArea({ onAdd }: Props) {
     );
     if (isCategoryActive) return alert('Remova os itens da categoria primeiro');
 
-    const key = removingCategory[theNewCategory[0]];
-    delete removingCategory[key.title];
+    const removingCategoryKey = removingCategory[theNewCategory[0]];
+    delete removingCategory[removingCategoryKey.title];
     setNewCategory({ ...removingCategory });
     localStorage.setItem('category', JSON.stringify(newCategory));
     setModal({ ...modal, removeCategoryModal: !removeCategoryModal });

@@ -3,14 +3,14 @@ import { categories } from '@/data/categories';
 import { Category, Item, childrenProps } from '@/types/Types';
 import { useContext, createContext, useState } from 'react';
 
-interface categoryContextProps {
+interface IcategoryContext {
   newCategory: Category;
   setNewCategory: React.Dispatch<React.SetStateAction<Category>>;
   list: Item[];
   setList: React.Dispatch<React.SetStateAction<Item[]>>;
 }
 
-const FormContext = createContext({} as categoryContextProps);
+const FormContext = createContext({} as IcategoryContext);
 
 export default function FormProvider({ children }: childrenProps) {
   const [newCategory, setNewCategory] = useState<Category>(categories);

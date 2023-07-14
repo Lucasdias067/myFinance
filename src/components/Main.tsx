@@ -1,8 +1,8 @@
 'use client';
 import { useEffect, useState } from 'react';
-import InfoArea from '@/components/InfoArea';
-import FormArea from '@/components/InputArea';
-import ListArea from '@/components/ListArea';
+import Info from '@/components/Info';
+import Form from '@/components/Form';
+import List from '@/components/List';
 import { filterListByMonth, getCurrentMonth } from '@/helpers/dateFilter';
 import { Item } from '@/types/Types';
 import { useFormContext } from '@/context/FormContext';
@@ -105,7 +105,7 @@ export default function Main() {
     >
       <MainHeader />
       <section className='mt-7 flex max-w-4xl flex-col items-center lg:min-w-[1024px]'>
-        <InfoArea
+        <Info
           currentMonth={currentMonth}
           onMonthChange={handleMonthChange}
           income={income}
@@ -113,8 +113,8 @@ export default function Main() {
           incomeTotal={incomeTotal}
           expenseTotal={expenseTotal}
         />
-        <FormArea onAdd={handleAddItem} />
-        <ListArea filteredList={filteredList} />
+        <Form onAdd={handleAddItem} />
+        <List filteredList={filteredList} />
       </section>
     </main>
   );
