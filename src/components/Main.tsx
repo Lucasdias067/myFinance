@@ -3,13 +3,13 @@ import { useEffect, useState } from 'react';
 import Info from '@/components/Info';
 import Form from '@/components/Form';
 import List from '@/components/List';
-import { filterListByMonth, getCurrentMonth } from '@/helpers/dateFilter';
-import { Item } from '@/types/Types';
-import { useFormContext } from '@/context/FormContext';
 import MainHeader from './MainHeader';
+import { filterListByMonth, getCurrentMonth } from '@/helpers/dateFilter';
+import { IItem } from '@/types/Types';
+import { MyUseFormContext } from '@/context/FormContext';
 
 export default function Main() {
-  const [filteredList, setFilteredList] = useState<Item[]>([]);
+  const [filteredList, setFilteredList] = useState<IItem[]>([]);
   const [currentMonth, setCurrentMonth] = useState(getCurrentMonth());
   const [balance, setBalance] = useState({
     income: 0,
@@ -18,16 +18,17 @@ export default function Main() {
     expenseTotal: 0
   });
 
-  const { newCategory, list, setList } = useFormContext();
+  const { newCategory, list, setList } = MyUseFormContext();
   const { income, expense, incomeTotal, expenseTotal } = balance;
 
   useEffect(() => {
-    setFilteredList(filterListByMonth(list, currentMonth));
+    const filteredListByMonth = filterListByMonth(list, currentMonth);
+    setFilteredList(filteredListByMonth);
   }, [list, currentMonth]);
 
   useEffect(() => {
-    function filterBalance(lists: Item[], expenses: number, incomes: number) {
-      if (lists.length) {
+    function filterBalance(lists: IItem[], expenses: number, incomes: number) {
+      if (lists && lists.length) {
         lists.forEach(({ category, value }) => {
           newCategory[category]?.expense
             ? (expenses += Number(value))
@@ -37,22 +38,8 @@ export default function Main() {
       return { expenses, incomes };
     }
 
-    const expenseCount = 0;
-    const incomeCount = 0;
-    const expenseCountTotal = 0;
-    const incomeCountTotal = 0;
-
-    const filteredBalance = filterBalance(
-      filteredList,
-      expenseCount,
-      incomeCount
-    );
-
-    const totalBalance = filterBalance(
-      list,
-      expenseCountTotal,
-      incomeCountTotal
-    );
+    const filteredBalance = filterBalance(filteredList, 0, 0);
+    const totalBalance = filterBalance(list, 0, 0);
 
     setBalance({
       income: filteredBalance.incomes,
@@ -70,32 +57,24 @@ export default function Main() {
 
   useEffect(() => {
     const initialList = localStorage.getItem('lists');
-    if (initialList) {
-      const listParsed = JSON.parse(initialList);
+    if (!initialList) return;
 
-      const findDate = listParsed.map((el: Item) => {
-        const date = new Date(el.date);
-        const year = date.getFullYear();
-        const month = date.getMonth() + 1;
-        const day = date.getDate();
-        return `${year}-${month}-${day}`;
-      });
+    const listParsed = JSON.parse(initialList);
+    const updatedlist = listParsed.map((el: IItem) => {
+      const myDate = new Date(el.date);
+      return { ...el, date: myDate };
+    });
 
-      const updatedlist: Item[] = listParsed.map((el: Item, index: number) => {
-        return { ...el, date: findDate[index].toString() };
-      });
-
-      setList([...updatedlist]);
-    }
+    setList([...updatedlist]);
   }, [setList, currentMonth]);
 
-  const handleMonthChange = (newMonth: string) => {
+  function handleMonthChange(newMonth: string) {
     setCurrentMonth(newMonth);
-  };
+  }
 
-  const handleAddItem = (item: Item) => {
+  function handleAddItem(item: IItem) {
     setList((prevState) => [...prevState, item]);
-  };
+  }
 
   return (
     <main
@@ -104,7 +83,7 @@ export default function Main() {
                 md:h-full md:min-h-screen'
     >
       <MainHeader />
-      <section className='mt-7 flex max-w-4xl flex-col items-center lg:min-w-[1024px]'>
+      <section className='mt-7 flex flex-col items-center lg:min-w-[1024px] xl:min-w-[1180px]'>
         <Info
           currentMonth={currentMonth}
           onMonthChange={handleMonthChange}

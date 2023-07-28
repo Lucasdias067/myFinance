@@ -1,4 +1,4 @@
-import { childrenProps } from '@/types/Types';
+import { IChildrenProps } from '@/types/Types';
 import './globals.css';
 
 export const metadata = {
@@ -6,7 +6,7 @@ export const metadata = {
   description: 'Aplicativo de finanças pessoais'
 };
 
-export default function RootLayout({ children }: childrenProps) {
+export default function RootLayout({ children }: IChildrenProps) {
   return (
     <html lang='pt-BR'>
       <body>{children}</body>

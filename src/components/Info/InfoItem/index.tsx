@@ -1,26 +1,23 @@
-import { CSSProperties } from 'react';
-
-type InfoItemProps = {
+import { twMerge } from 'tailwind-merge';
+interface IInfoItem extends React.ComponentProps<'div'> {
   title: string;
   value: number;
-  color?: string;
-};
+}
 
-export default function InfoItem({ title, value, color }: InfoItemProps) {
-  const itemStyle: CSSProperties = {
-    color: color || '#4B5563'
-  };
-
+export default function InfoItem({ title, value, className }: IInfoItem) {
   return (
-    <div className='flex flex-1 flex-col justify-between  font-medium '>
-      <div className='b-1 text-center font-bold text-gray-600 dark:text-white '>
-        {title}
+    <div className='flex flex-1 flex-col justify-between gap-2  font-medium '>
+      <div className='flex h-full items-center justify-center text-center text-sm font-bold text-gray-600 dark:text-white lg:text-base'>
+        <span>{title}</span>
       </div>
       <div
-        className='rounded-lg py-2 text-center text-xs font-bold text-gray-600 dark:bg-white md:text-base '
-        style={itemStyle}
+        className={twMerge(
+          'flex h-16 w-full flex-col items-center justify-center rounded-lg border border-gray-300 py-2 text-center text-[10px] font-bold text-gray-600 dark:bg-white md:text-xs lg:text-sm',
+          className
+        )}
       >
-        R$ {value}
+        <span>R$</span>
+        <span>{value.toFixed(2)}</span>
       </div>
     </div>
   );

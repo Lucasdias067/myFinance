@@ -1,4 +1,4 @@
-import { Item } from '../types/Types';
+import { IItem } from '../types/Types';
 
 export function splitDate(date: string) {
   return date.split('-').map(Number);
@@ -9,7 +9,7 @@ export function getCurrentMonth() {
   return `${now.getFullYear()}-${now.getMonth() + 1}`;
 }
 
-export function filterListByMonth(list: Item[], date: string) {
+export function filterListByMonth(list: IItem[], date: string) {
   const [year, month] = splitDate(date);
 
   const filteredList = list.filter(
@@ -19,18 +19,6 @@ export function filterListByMonth(list: Item[], date: string) {
   );
 
   return filteredList;
-}
-
-export function formatDate(date: Date) {
-  const { year, month, day } = {
-    year: new Date(date).getFullYear(),
-    month: (new Date(date).getMonth() + 1).toString().padStart(2, '0'),
-    day: new Date(date).getDate().toString().padStart(2, '0')
-  };
-
-  const formattedDate = `${day}/${month}/${year}`;
-
-  return formattedDate;
 }
 
 export function formatCurrentMonth(currentMonth: string) {
@@ -51,9 +39,4 @@ export function formatCurrentMonth(currentMonth: string) {
     'Dezembro'
   ];
   return `${months[month - 1]} de ${year}`;
-}
-
-export function newDateAdjusted(dateField: string) {
-  const [year, month, day] = splitDate(dateField);
-  return new Date(year, month - 1, day);
 }

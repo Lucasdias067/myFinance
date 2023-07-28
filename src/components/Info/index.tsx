@@ -2,14 +2,14 @@ import { splitDate } from '../../helpers/dateFilter';
 import DatePicker from './DatePicker';
 import InfoItem from './InfoItem';
 
-type InfoAreaProps = {
+interface IInfoAreaProps {
   currentMonth: string;
   onMonthChange: (newMonth: string) => void;
   income: number;
   expense: number;
   incomeTotal: number;
   expenseTotal: number;
-};
+}
 
 export default function Info({
   currentMonth,
@@ -18,19 +18,19 @@ export default function Info({
   expense,
   incomeTotal,
   expenseTotal
-}: InfoAreaProps) {
+}: IInfoAreaProps) {
   const resumeField = [
     { title: 'Receitas', value: income },
     { title: 'Despesas', value: expense },
     {
       title: 'Balanço Mensal',
       value: income - expense,
-      color: income - expense < 0 ? '#E45E5E' : '#44d337'
+      color: income - expense < 0 ? 'text-red-600' : 'text-lime-600 '
     },
     {
       title: 'Balanço Total',
       value: incomeTotal - expenseTotal,
-      color: incomeTotal - expenseTotal < 0 ? '#E45E5E' : '#44d337'
+      color: incomeTotal - expenseTotal < 0 ? 'text-red-600' : 'text-lime-600 '
     }
   ];
 
@@ -46,9 +46,9 @@ export default function Info({
   return (
     <div className=' mx-[5%] mt-5 flex flex-col items-center gap-10 rounded-xl border bg-white p-5 shadow-xl dark:border-gray-700 dark:bg-gray-800 dark:shadow md:w-[90%] md:flex-row md:border md:p-5 lg:mx-0 '>
       <DatePicker handleMonth={handleMonth} currentMonth={currentMonth} />
-      <div className='flex flex-[2] gap-4 '>
+      <div className='flex flex-[2] gap-1 md:gap-3'>
         {resumeField.map((item, index) => (
-          <InfoItem key={index} {...item} />
+          <InfoItem key={index} {...item} className={`${item.color}`} />
         ))}
       </div>
     </div>
