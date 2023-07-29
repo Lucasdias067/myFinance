@@ -6,7 +6,7 @@ import { HandleError } from '../../MainForm/HandleError';
 import { Label } from '../../Label';
 import { Input } from '../../Input';
 import { Select } from '../../Select';
-import { CancelButton, SubmitButton } from '../../Button';
+import Modal from '../Modal';
 
 const addModalSchema = z.object({
   title: z
@@ -55,36 +55,28 @@ export default function AddModal({ openModal }: IAddModal) {
 
   return (
     <FormProvider {...createAddModal}>
-      <div className='fixed inset-0 z-50 flex items-center justify-center '>
-        <div className='absolute inset-0 bg-gray-900 opacity-75 dark:bg-gray-900'></div>
-        <form
-          onSubmit={handleSubmit(addCategory)}
-          className='relative rounded-lg bg-white p-6 shadow-xl dark:bg-gray-800 '
-        >
-          <div className='mb-7'>
-            <Label name='Categoria:' className='mx-0'>
-              <Input name='title' type='text' />
-              <HandleError name='title' />
-            </Label>
-            <Label name='Escolha uma cor:'>
-              <Input name='color' type='color' />
-              <HandleError name='color' />
-            </Label>
-            <Label name='Receita ou Despesa:'>
-              <Select name='expense'>
-                <option></option>
-                <option value={'Receita'}>Receita</option>
-                <option value={'Despesa'}>Despesa</option>
-              </Select>
-              <HandleError name='expense' />
-            </Label>
-          </div>
-          <div className='flex items-center gap-4'>
-            <SubmitButton text='Salvar' />
-            <CancelButton text='Cancelar' onClick={openModal} />
-          </div>
-        </form>
-      </div>
+      <Modal
+        text='Adicionar'
+        onSubmitFunction={handleSubmit(addCategory)}
+        onClick={openModal}
+      >
+        <Label name='Categoria:' className='mx-0'>
+          <Input name='title' type='text' />
+          <HandleError name='title' />
+        </Label>
+        <Label name='Escolha uma cor:'>
+          <Input name='color' type='color' />
+          <HandleError name='color' />
+        </Label>
+        <Label name='Receita ou Despesa:'>
+          <Select name='expense'>
+            <option></option>
+            <option value={'Receita'}>Receita</option>
+            <option value={'Despesa'}>Despesa</option>
+          </Select>
+          <HandleError name='expense' />
+        </Label>
+      </Modal>
     </FormProvider>
   );
 }
