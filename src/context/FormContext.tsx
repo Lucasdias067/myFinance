@@ -58,6 +58,25 @@ export function MyUseFormContext() {
   }
 
   useEffect(() => {
+    if (list && list.length) {
+      localStorage.setItem('lists', JSON.stringify(list));
+    }
+  }, [list]);
+
+  useEffect(() => {
+    const initialList = localStorage.getItem('lists');
+    if (!initialList) return;
+
+    const listParsed = JSON.parse(initialList);
+    const updatedlist = listParsed.map((el: IItem) => {
+      const myDate = new Date(el.date);
+      return { ...el, date: myDate };
+    });
+
+    setList([...updatedlist]);
+  }, [setList]);
+
+  useEffect(() => {
     if (Object.keys(newCategory).length === 3) return;
     localStorage.setItem('category', JSON.stringify(newCategory));
   }, [newCategory]);

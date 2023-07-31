@@ -5,7 +5,6 @@ interface ReactNode {
 }
 
 export function HandleError({ name }: ReactNode) {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   function get(obj: Record<any, any>, path: string) {
     const travel = (regexp: RegExp) =>
       String.prototype.split

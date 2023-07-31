@@ -49,25 +49,6 @@ export default function Main() {
     });
   }, [list, filteredList, newCategory]);
 
-  useEffect(() => {
-    if (list && list.length) {
-      localStorage.setItem('lists', JSON.stringify(list));
-    }
-  }, [list]);
-
-  useEffect(() => {
-    const initialList = localStorage.getItem('lists');
-    if (!initialList) return;
-
-    const listParsed = JSON.parse(initialList);
-    const updatedlist = listParsed.map((el: IItem) => {
-      const myDate = new Date(el.date);
-      return { ...el, date: myDate };
-    });
-
-    setList([...updatedlist]);
-  }, [setList, currentMonth]);
-
   function handleMonthChange(newMonth: string) {
     setCurrentMonth(newMonth);
   }

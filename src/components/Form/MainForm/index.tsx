@@ -13,7 +13,7 @@ import { SubmitButton } from '../Button';
 const listDataSchema = z.object({
   date: z.coerce
     .date({
-      errorMap: (issue, _ctx) => {
+      errorMap: (issue) => {
         if (issue.code.length) return { message: 'Data é obrigatória' };
         return { message: 'Data é obrigatória' };
       }
@@ -31,17 +31,13 @@ const listDataSchema = z.object({
     .max(25, 'Máximo 25 caracteres')
     .nonempty('Título é obrigatório')
     .refine((val) => val.trim().length > 0, 'Título inválido')
-    .transform((val) => {
-      return val.trim();
-    }),
+    .transform((val) => val.trim()),
   value: z.coerce
     .number()
     .positive('Valor inválido')
     .lte(999999999, 'Máximo de caracteres')
     .safe('Valor elevado')
-    .transform((value) => {
-      return value.toString();
-    })
+    .transform((value) => value.toString())
 });
 
 interface IMainForm {

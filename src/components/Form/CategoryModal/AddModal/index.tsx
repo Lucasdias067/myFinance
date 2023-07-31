@@ -17,7 +17,7 @@ const addModalSchema = z.object({
   color: z.string().nonempty('Informe a cor da categoria'),
   expense: z
     .enum(['Despesa', 'Receita'], {
-      errorMap: (issue, _ctx) => {
+      errorMap: (issue) => {
         return issue.code === 'invalid_enum_value'
           ? { message: 'Obrigatório' }
           : { message: 'Inválido' };

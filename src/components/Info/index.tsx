@@ -44,7 +44,11 @@ export default function Info({
   }
 
   return (
-    <div className=' mx-[5%] mt-5 flex flex-col items-center gap-10 rounded-xl border bg-white p-5 shadow-xl dark:border-gray-700 dark:bg-gray-800 dark:shadow md:w-[90%] md:flex-row md:border md:p-5 lg:mx-0 '>
+    <div
+      className='mx-[5%] mt-5 flex flex-col items-center gap-10 rounded-xl border bg-white p-5 shadow-xl 
+              dark:border-gray-700 dark:bg-gray-800 dark:shadow 
+                md:w-[90%] md:flex-row md:border md:p-5 lg:mx-0 '
+    >
       <DatePicker handleMonth={handleMonth} currentMonth={currentMonth} />
       <div className='flex flex-[2] gap-1 md:gap-3'>
         {resumeField.map((item, index) => (
