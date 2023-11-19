@@ -1,7 +1,7 @@
 import { IItem } from '../../../types/Types';
-import { CSSProperties } from 'react';
 import { MyUseFormContext } from '@/context/FormContext';
 import { TrashIcon } from '@heroicons/react/24/solid';
+import { categories } from '@/data/categories';
 
 interface IItemProps {
   item: IItem;
@@ -10,10 +10,11 @@ interface IItemProps {
 export default function ListItem({ item }: IItemProps) {
   const { newCategory, list, setList } = MyUseFormContext();
   const { category, date, title, value } = item;
+  console.log(newCategory[category]);
+  console.log('hjhhjhj', categories);
 
-  const bgCategory: CSSProperties = {
-    backgroundColor: newCategory[category]?.color || 'inherit',
-    border: newCategory[category]?.color || 'inherit'
+  const bgCategory = {
+    backgroundColor: newCategory[category]?.color
   };
 
   const colorValue = newCategory[category]?.expense
@@ -32,7 +33,7 @@ export default function ListItem({ item }: IItemProps) {
   }
 
   return (
-    <div className='mt-4 flex w-full justify-between gap-4 md:gap-0  '>
+    <div className='mt-4 flex w-full justify-between gap-4 md:gap-0'>
       <div className='w-1/6 text-[10px] dark:text-white md:w-1/6 md:text-sm lg:text-base'>
         {formatDate(date)}
       </div>
