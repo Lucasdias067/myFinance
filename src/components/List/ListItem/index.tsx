@@ -1,7 +1,6 @@
 import { IItem } from '../../../types/Types';
 import { MyUseFormContext } from '@/context/FormContext';
 import { TrashIcon } from '@heroicons/react/24/solid';
-import { categories } from '@/data/categories';
 
 interface IItemProps {
   item: IItem;
@@ -10,8 +9,6 @@ interface IItemProps {
 export default function ListItem({ item }: IItemProps) {
   const { newCategory, list, setList } = MyUseFormContext();
   const { category, date, title, value } = item;
-  console.log(newCategory[category]);
-  console.log('hjhhjhj', categories);
 
   const bgCategory = {
     backgroundColor: newCategory[category]?.color
