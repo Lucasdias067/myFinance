@@ -70,7 +70,6 @@ export default function AddModal({ openModal }: IAddModal) {
         </Label>
         <Label name='Receita ou Despesa:'>
           <Select name='expense'>
-            <option></option>
             <option value={'Receita'}>Receita</option>
             <option value={'Despesa'}>Despesa</option>
           </Select>

@@ -22,8 +22,8 @@ const listDataSchema = z.object({
     .transform((value) => {
       const utcYear = value.getUTCFullYear();
       const utcMonth = value.getUTCMonth();
-      const utcDay = value.getUTCDate() + 1;
-      return new Date(Date.UTC(utcYear, utcMonth, utcDay));
+      const utcDay = value.getUTCDate();
+      return new Date(utcYear, utcMonth, utcDay);
     }),
   category: z.string().nonempty('Categoria é obrigatória'),
   title: z
@@ -58,6 +58,8 @@ export default function MainForm({ onAdd, openModal, closeModal }: IMainForm) {
   const { handleSubmit, reset } = createListData;
 
   function createData(data: TListData) {
+    console.log(data.date);
+
     onAdd({
       date: data.date,
       category: data.category,
@@ -80,7 +82,6 @@ export default function MainForm({ onAdd, openModal, closeModal }: IMainForm) {
         <Label>
           <HandleCategory openModal={openModal} closeModal={closeModal} />
           <Select name='category'>
-            <option></option>
             {categoryKeys.map((key, index) => (
               <option key={index} value={key}>
                 {newCategory[key].title}

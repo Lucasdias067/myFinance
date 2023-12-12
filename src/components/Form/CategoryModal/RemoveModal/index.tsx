@@ -51,7 +51,6 @@ export default function RemoveModal({ closeModal }: IRemoveModal) {
       >
         <Label name='Remover Categoria:' className='m-0'>
           <Select name='removeCategoryKey'>
-            <option disabled></option>
             {removeCategoryKey.map((key, index) => (
               <option key={index} value={key}>
                 {newCategory[key].title}
