@@ -64,7 +64,7 @@ export default function Main() {
                 md:h-full md:min-h-screen'
     >
       <MainHeader />
-      <section className='mt-7 flex flex-col items-center lg:min-w-[1024px] xl:min-w-[1180px]'>
+      <section className='mt-[27px] flex flex-col items-center lg:min-w-[1024px] xl:min-w-[1180px]'>
         <Info
           currentMonth={currentMonth}
           onMonthChange={handleMonthChange}
